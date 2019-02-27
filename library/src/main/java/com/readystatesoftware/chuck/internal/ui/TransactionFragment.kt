@@ -13,15 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.readystatesoftware.chuck.internal.support;
+package com.readystatesoftware.chuck.internal.ui
 
-import android.support.v4.view.ViewPager;
+import com.readystatesoftware.chuck.internal.data.HttpTransaction
 
-public abstract class SimpleOnPageChangedListener implements ViewPager.OnPageChangeListener {
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
-    @Override
-    public abstract void onPageSelected(int position);
-    @Override
-    public void onPageScrollStateChanged(int state) {}
+internal interface TransactionFragment {
+    fun transactionUpdated(transaction: HttpTransaction)
 }

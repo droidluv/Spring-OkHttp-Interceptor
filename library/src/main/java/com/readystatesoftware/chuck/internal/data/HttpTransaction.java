@@ -19,7 +19,7 @@ import android.net.Uri;
 
 import com.google.gson.reflect.TypeToken;
 import com.readystatesoftware.chuck.internal.support.FormatUtils;
-import com.readystatesoftware.chuck.internal.support.JsonConvertor;
+import com.readystatesoftware.chuck.internal.support.JsonConverter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -255,16 +255,16 @@ public class HttpTransaction {
     }
 
     public void setRequestHeaders(List<HttpHeader> headers) {
-        requestHeaders = JsonConvertor.getInstance().toJson(headers);
+        requestHeaders = JsonConverter.INSTANCE.getInstance().toJson(headers);
     }
 
     public List<HttpHeader> getRequestHeaders() {
-        return JsonConvertor.getInstance().fromJson(requestHeaders,
+        return JsonConverter.INSTANCE.getInstance().fromJson(requestHeaders,
                 new TypeToken<List<HttpHeader>>(){}.getType());
     }
 
     public String getRequestHeadersString(boolean withMarkup) {
-        return FormatUtils.formatHeaders(getRequestHeaders(), withMarkup);
+        return FormatUtils.INSTANCE.formatHeaders(getRequestHeaders(), withMarkup);
     }
 
     public void setResponseHeaders(Headers headers) {
@@ -272,16 +272,16 @@ public class HttpTransaction {
     }
 
     public void setResponseHeaders(List<HttpHeader> headers) {
-        responseHeaders = JsonConvertor.getInstance().toJson(headers);
+        responseHeaders = JsonConverter.INSTANCE.getInstance().toJson(headers);
     }
 
     public List<HttpHeader> getResponseHeaders() {
-        return JsonConvertor.getInstance().fromJson(responseHeaders,
+        return JsonConverter.INSTANCE.getInstance().fromJson(responseHeaders,
                 new TypeToken<List<HttpHeader>>(){}.getType());
     }
 
     public String getResponseHeadersString(boolean withMarkup) {
-        return FormatUtils.formatHeaders(getResponseHeaders(), withMarkup);
+        return FormatUtils.INSTANCE.formatHeaders(getResponseHeaders(), withMarkup);
     }
 
     public Status getStatus() {
@@ -359,15 +359,15 @@ public class HttpTransaction {
 
     private String formatBody(String body, String contentType) {
         if (contentType != null && contentType.toLowerCase().contains("json")) {
-            return FormatUtils.formatJson(body);
+            return FormatUtils.INSTANCE.formatJson(body);
         } else if (contentType != null && contentType.toLowerCase().contains("xml")) {
-            return FormatUtils.formatXml(body);
+            return FormatUtils.INSTANCE.formatXml(body);
         } else {
             return body;
         }
     }
 
     private String formatBytes(long bytes) {
-        return FormatUtils.formatByteCount(bytes, true);
+        return FormatUtils.INSTANCE.formatByteCount(bytes, true);
     }
 }

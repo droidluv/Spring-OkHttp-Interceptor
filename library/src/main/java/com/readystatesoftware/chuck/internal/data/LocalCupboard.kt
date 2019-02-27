@@ -13,32 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.readystatesoftware.chuck.internal.data;
+package com.readystatesoftware.chuck.internal.data
 
-import nl.qbusict.cupboard.Cupboard;
-import nl.qbusict.cupboard.CupboardBuilder;
+import nl.qbusict.cupboard.Cupboard
+import nl.qbusict.cupboard.CupboardBuilder
 
-public class LocalCupboard {
+object LocalCupboard {
 
-    private static Cupboard cupboard;
+    private var cupboard: Cupboard = CupboardBuilder().build()
 
-    static {
-        getInstance().register(HttpTransaction.class);
-    }
+    val instance: Cupboard get() = cupboard
 
-    public static Cupboard getInstance() {
-        if (cupboard == null) {
-            cupboard = new CupboardBuilder().build();
-        }
-        return cupboard;
-    }
-
-    public static Cupboard getAnnotatedInstance() {
-        return new CupboardBuilder(getInstance())
+    val annotatedInstance: Cupboard
+        get() = CupboardBuilder(instance)
                 .useAnnotations()
-                .build();
-    }
+                .build()
 
-    private LocalCupboard() {
+    init {
+        instance.register(HttpTransaction::class.java)
     }
 }

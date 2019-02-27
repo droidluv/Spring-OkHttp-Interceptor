@@ -13,10 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.readystatesoftware.chuck.internal.ui;
+package com.readystatesoftware.chuck
 
-import com.readystatesoftware.chuck.internal.data.HttpTransaction;
+import android.content.Context
+import android.content.Intent
 
-interface TransactionFragment {
-    void transactionUpdated(HttpTransaction transaction);
+import com.readystatesoftware.chuck.internal.ui.MainActivity
+
+/**
+ * Chuck utilities.
+ */
+object Chuck {
+
+    /**
+     * Get an Intent to launch the Chuck UI directly.
+     *
+     * @param context A Context.
+     * @return An Intent for the main Chuck Activity that can be started with [Context.startActivity].
+     */
+    fun getLaunchIntent(context: Context): Intent {
+        return Intent(context, MainActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    }
 }

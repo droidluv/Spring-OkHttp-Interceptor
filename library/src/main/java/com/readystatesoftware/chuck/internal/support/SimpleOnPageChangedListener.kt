@@ -13,25 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.readystatesoftware.chuck;
+package com.readystatesoftware.chuck.internal.support
 
-import android.content.Context;
-import android.content.Intent;
+import androidx.viewpager.widget.ViewPager
 
-import com.readystatesoftware.chuck.internal.ui.MainActivity;
-
-/**
- * Chuck utilities.
- */
-public class Chuck {
-
-    /**
-     * Get an Intent to launch the Chuck UI directly.
-     *
-     * @param context A Context.
-     * @return An Intent for the main Chuck Activity that can be started with {@link Context#startActivity(Intent)}.
-     */
-    public static Intent getLaunchIntent(Context context) {
-        return new Intent(context, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    }
+abstract class SimpleOnPageChangedListener : ViewPager.OnPageChangeListener {
+    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+    abstract override fun onPageSelected(position: Int)
+    override fun onPageScrollStateChanged(state: Int) {}
 }

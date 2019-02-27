@@ -13,17 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.readystatesoftware.chuck;
+package com.readystatesoftware.chuck
 
-import android.content.Context;
-import android.content.Intent;
+import android.content.Context
+import android.content.Intent
 
 /**
  * No-op implementation.
  */
-public class Chuck {
-
-    public static Intent getLaunchIntent(Context context) {
-        return new Intent();
+object Chuck {
+    fun getLaunchIntent(context: Context): Intent {
+        return Intent()
     }
 }

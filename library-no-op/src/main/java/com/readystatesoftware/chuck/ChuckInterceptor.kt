@@ -13,46 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.readystatesoftware.chuck;
+package com.readystatesoftware.chuck
 
-import android.content.Context;
-
-import java.io.IOException;
-
-import okhttp3.Interceptor;
-import okhttp3.Request;
-import okhttp3.Response;
+import android.content.Context
+import okhttp3.Interceptor
+import okhttp3.Response
+import java.io.IOException
 
 /**
  * No-op implementation.
  */
-public final class ChuckInterceptor implements Interceptor {
+class ChuckInterceptor(context: Context) : Interceptor {
 
-    public enum Period {
+    enum class Period {
         ONE_HOUR,
         ONE_DAY,
         ONE_WEEK,
         FOREVER
     }
 
-    public ChuckInterceptor(Context context) {
+    fun showNotification(show: Boolean): ChuckInterceptor {
+        return this
     }
 
-    public ChuckInterceptor showNotification(boolean show) {
-        return this;
+    fun maxContentLength(max: Long): ChuckInterceptor {
+        return this
     }
 
-    public ChuckInterceptor maxContentLength(long max) {
-        return this;
+    fun retainDataFor(period: Period): ChuckInterceptor {
+        return this
     }
 
-    public ChuckInterceptor retainDataFor(Period period) {
-        return this;
-    }
-
-    @Override
-    public Response intercept(Chain chain) throws IOException {
-        Request request = chain.request();
-        return chain.proceed(request);
+    @Throws(IOException::class)
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val request = chain.request()
+        return chain.proceed(request)
     }
 }

@@ -13,30 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.readystatesoftware.chuck.internal.support;
+package com.readystatesoftware.chuck.internal.support
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.internal.bind.DateTypeAdapter;
+import com.google.gson.FieldNamingPolicy
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.internal.bind.DateTypeAdapter
+import java.util.*
 
-import java.util.Date;
+object JsonConverter {
 
-public class JsonConvertor {
-
-    private static Gson gson = null;
-
-    private JsonConvertor() {
-    }
-
-    public static Gson getInstance() {
-        if (gson == null) {
-            gson = new GsonBuilder()
+    val instance: Gson
+        get() {
+            return GsonBuilder()
                     .setPrettyPrinting()
                     .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                    .registerTypeAdapter(Date.class, new DateTypeAdapter())
-                    .create();
+                    .registerTypeAdapter(Date::class.java, DateTypeAdapter())
+                    .create()
         }
-        return gson;
-    }
 }
