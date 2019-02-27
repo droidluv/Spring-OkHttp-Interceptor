@@ -1,3 +1,7 @@
+This is a fork of the original project so right now I have no repositories setup, read the setup instructions to have this version of Chuck up and running
+
+I will plan on adding more features, renaming the project and package, to make this fork more distinct, and more importantly setting up a repository
+
 Chuck
 =====
 
@@ -18,13 +22,37 @@ Chuck requires Android 4.1+ and OkHttp 3.x.
 Setup
 -----
 
-Add the dependency in your `build.gradle` file. Add it alongside the `no-op` variant to isolate Chuck from release builds as follows:
+This is the inception work of this fork so setup is a bit messy, you'll have to download the entire project, and import it to Android Studio
+Goto Gradle(the option in the right side pane) -> :library -> Tasks -> build -> assemble -> it will generate two aars in your library/build/outputs/aar directory
+You can select the library-release.aar rename it chuck.aar and put it in your app's libs directory usually right under the app directory like app/libs 
+then in gradle you have to set the repositories like below
 
 ```gradle
- dependencies {
-   debugCompile 'com.readystatesoftware.chuck:library:1.1.0'
-   releaseCompile 'com.readystatesoftware.chuck:library-no-op:1.1.0'
- }
+
+    defaultConfig {
+        .....
+    }
+    
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+```
+and in dependencies add 
+
+```gradle
+        implementation (name: 'chuck', ext:'aar')
+        implementation 'nl.qbusict:cupboard:2.2.0'
+```
+
+if you want use the no-op library you can follow the above steps for the libray-no-op and with generated aars keep it like
+(assuming you rename the no-op aar to chuck-no-op)
+
+```gradle
+        debugImplementation (name: 'chuck', ext:'aar')
+        debugImplementation 'nl.qbusict:cupboard:2.2.0'
+        releaseImplementation (name: 'chuck-no-op, ext'aar')
 ```
 
 In your application code, create an instance of `ChuckInterceptor` (you'll need to provide it with a `Context`, because Android) and add it as an interceptor when building your OkHttp client:
