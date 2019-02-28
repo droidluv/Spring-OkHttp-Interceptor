@@ -2,6 +2,13 @@ This is a fork of the original project so right now I have no repositories setup
 
 I will plan on adding more features, renaming the project and package, to make this fork more distinct, and more importantly setting up a repository
 
+The improvements done are:
+* The library and the no-op versions have been updated to use kotlin (sample is still kept in java so that even java users can understand how to work with this library version)
+* Androidx conversion
+* Updated gradle dependencies
+
+Why the kotlin upgrade? Its to further reduce any NPE possibilities, and have a more modern language with concise code, like with this update itself number of lines must have reduced by several lines
+
 Chuck
 =====
 
@@ -42,17 +49,17 @@ then in gradle you have to set the repositories like below
 and in dependencies add 
 
 ```gradle
-        implementation (name: 'chuck', ext:'aar')
-        implementation 'nl.qbusict:cupboard:2.2.0'
+    implementation (name: 'chuck', ext:'aar')
+    implementation 'nl.qbusict:cupboard:2.2.0'
 ```
 
 if you want use the no-op library you can follow the above steps for the libray-no-op and with generated aars keep it like
 (assuming you rename the no-op aar to chuck-no-op)
 
 ```gradle
-        debugImplementation (name: 'chuck', ext:'aar')
-        debugImplementation 'nl.qbusict:cupboard:2.2.0'
-        releaseImplementation (name: 'chuck-no-op, ext'aar')
+    debugImplementation (name: 'chuck', ext:'aar')
+    debugImplementation 'nl.qbusict:cupboard:2.2.0'
+    releaseImplementation (name: 'chuck-no-op, ext'aar')
 ```
 
 In your application code, create an instance of `ChuckInterceptor` (you'll need to provide it with a `Context`, because Android) and add it as an interceptor when building your OkHttp client:
