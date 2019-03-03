@@ -18,7 +18,10 @@ package com.okhttpinspector.spring.internal.ui
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ActivityInfo
+import android.content.res.ColorStateList
 import android.database.Cursor
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -30,11 +33,11 @@ import androidx.loader.content.CursorLoader
 import androidx.loader.content.Loader
 import androidx.viewpager.widget.ViewPager
 import com.okhttpinspector.spring.R
+import com.okhttpinspector.spring.Spring
 import com.okhttpinspector.spring.internal.data.HttpTransaction
 import com.okhttpinspector.spring.internal.data.LocalCupboard
 import com.okhttpinspector.spring.internal.data.SpringContentProvider
-import com.okhttpinspector.spring.internal.support.FormatUtils
-import com.okhttpinspector.spring.internal.support.SimpleOnPageChangedListener
+import com.okhttpinspector.spring.internal.support.*
 import kotlinx.android.synthetic.main.spring_activity_transaction.*
 import java.util.*
 
@@ -48,10 +51,19 @@ class SpringTransactionActivity : SpringBaseActivity(), LoaderManager.LoaderCall
         super.onCreate(savedInstanceState)
         setContentView(R.layout.spring_activity_transaction)
 
+        requestedOrientation = if(Spring.allowOrientationChange) ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+        else ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
         setSupportActionBar(toolbar)
+        changeStatusBarColor(Spring.statusBarColorHex.parseColor(this getColorResource R.color.spring_colorPrimaryDark ), false)
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         setupViewPager(viewpager)
         tabs.setupWithViewPager(viewpager)
+
+        tabs.setSelectedTabIndicatorColor(Spring.tabBarIndicatorColorHex.parseColor(this getColorResource R.color.spring_colorPrimary))
+        tabs.setBackgroundColor(Spring.tabBarBackgroundColorHex.parseColor(this getColorResource R.color.spring_colorPrimary))
+        toolbar.setBackgroundColor(Spring.actionBarColorHex.parseColor(this getColorResource R.color.spring_colorPrimary))
 
         transactionId = intent.getLongExtra(ARG_TRANSACTION_ID, 0)
         LoaderManager.getInstance(this).initLoader(0, null, this)

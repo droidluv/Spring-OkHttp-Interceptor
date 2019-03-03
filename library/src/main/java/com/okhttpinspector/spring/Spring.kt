@@ -26,6 +26,41 @@ import com.okhttpinspector.spring.internal.ui.SpringMainActivity
 object Spring {
 
     /**
+     *  The subtitle to ne used in the action bar
+     */
+    var subtitle: String? = null
+
+    /**
+     *  The title to be used in action bar, if not set only title will be shown
+     */
+    var title: String? = null
+
+    /**
+     * Define a staus bar color in Hex Code
+     */
+    var statusBarColorHex: String = "#0524ad"
+
+    /**
+     * Define a action bar color in Hex Code
+     */
+    var actionBarColorHex: String = "#1234d0"
+
+    /**
+     * set the tab color in api detail screen
+     */
+    var tabBarBackgroundColorHex: String = "#1234d0"
+
+    /**
+     * set the tab color in api detail screen
+     */
+    var tabBarIndicatorColorHex: String = "#2ce049"
+
+    /**
+     * set the tab color in api detail screen
+     */
+    var allowOrientationChange: Boolean = false
+
+    /**
      * Get an Intent to launch the Spring UI directly.
      *
      * @param context A Context.

@@ -36,6 +36,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Spring.INSTANCE.setTitle("Sample App Interceptor");
+        Spring.INSTANCE.setStatusBarColorHex("#000000");
+        Spring.INSTANCE.setActionBarColorHex("#000000");
+        Spring.INSTANCE.setSubtitle(getString(R.string.app_name));
+        Spring.INSTANCE.setTabBarBackgroundColorHex("#000000");
+        Spring.INSTANCE.setTabBarIndicatorColorHex("#FFFFFF");
+
         findViewById(R.id.do_http).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

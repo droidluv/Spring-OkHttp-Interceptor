@@ -24,6 +24,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.okhttpinspector.spring.R
 import com.okhttpinspector.spring.internal.data.HttpTransaction
+import com.okhttpinspector.spring.internal.support.parseHtml
 import kotlinx.android.synthetic.main.spring_fragment_transaction_payload.*
 
 class SpringTransactionPayloadFragment : Fragment(), SpringTransactionFragment {
@@ -66,7 +67,7 @@ class SpringTransactionPayloadFragment : Fragment(), SpringTransactionFragment {
 
     private fun setText(headersString: String, bodyString: String?, isPlainText: Boolean) {
         headers?.visibility = if (TextUtils.isEmpty(headersString)) View.GONE else View.VISIBLE
-        headers?.text = Html.fromHtml(headersString)
+        headers?.text = headersString.parseHtml()
         if (!isPlainText) {
             body?.text = getString(R.string.spring_body_omitted)
         } else {

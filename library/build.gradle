@@ -23,11 +23,11 @@ android {
 }
 
 dependencies {
-    implementation 'com.google.code.gson:gson:2.8.2'
-    implementation "com.squareup.okhttp3:okhttp:$okhttp3Version"
-    implementation 'nl.qbusict:cupboard:2.2.0'
-    implementation "com.google.android.material:material:$supportLibVersion"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api 'com.google.code.gson:gson:2.8.5'
+    api "com.squareup.okhttp3:okhttp:$okhttp3Version"
+    api 'nl.qbusict:cupboard:2.2.0'
+    api "com.google.android.material:material:$supportLibVersion"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 repositories {
     mavenCentral()

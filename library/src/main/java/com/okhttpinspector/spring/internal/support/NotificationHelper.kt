@@ -32,7 +32,6 @@ import java.lang.reflect.Method
 
 class NotificationHelper(private val context: Context) {
     private val notificationManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    private var setChannelId: Method? = null
 
     private val clearAction: NotificationCompat.Action
         get() {
@@ -48,11 +47,6 @@ class NotificationHelper(private val context: Context) {
             notificationManager.createNotificationChannel(
                     NotificationChannel(CHANNEL_ID,
                             context.getString(R.string.spring_notification_category), NotificationManager.IMPORTANCE_LOW))
-            try {
-                setChannelId = NotificationCompat.Builder::class.java.getMethod("setChannelId", String::class.java)
-            } catch (ignored: Exception) {
-            }
-
         }
     }
 
@@ -60,20 +54,13 @@ class NotificationHelper(private val context: Context) {
     fun show(transaction: HttpTransaction) {
         addToBuffer(transaction)
         if (!SpringBaseActivity.isInForeground) {
-            val builder = NotificationCompat.Builder(context)
+            val builder = NotificationCompat.Builder(context, CHANNEL_ID)
                     .setContentIntent(PendingIntent.getActivity(context, 0, Spring.getLaunchIntent(context), 0))
                     .setLocalOnly(true)
                     .setSmallIcon(R.drawable.spring_vector_upload_download)
                     .setColor(ContextCompat.getColor(context, R.color.spring_colorPrimary))
                     .setContentTitle(context.getString(R.string.spring_notification_title))
             val inboxStyle = NotificationCompat.InboxStyle()
-            if (setChannelId != null) {
-                try {
-                    setChannelId!!.invoke(builder, CHANNEL_ID)
-                } catch (ignored: Exception) {
-                }
-
-            }
             for ((count, i) in (transactionBuffer.size() - 1 downTo 0).withIndex()) {
                 if (count < BUFFER_SIZE) {
                     if (count == 0) {

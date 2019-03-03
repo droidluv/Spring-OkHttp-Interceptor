@@ -20,14 +20,26 @@ Apps using Spring will display a notification showing a summary of ongoing HTTP 
 
 The main Spring activity is launched in its own task, allowing it to be displayed alongside the host app UI using Android 7.x multi-window support.
 
-Spring requires Android 4.1+ and OkHttp 3.x.
+Spring requires Android 4.1+ and OkHttp 3.x. and is for AndroidX based projects
 
 **Warning**: The data generated and stored when using this interceptor may contain sensitive information such as Authorization or Cookie headers, and the contents of request and response bodies. It is intended for use during development, and not in release builds or other production deployments.
 
 Setup
 -----
 
-This is the inception work of this fork so setup is a bit messy, you'll have to download the entire project, and import it to Android Studio
+This library can be used only with apps upgraded for AndroidX
+
+Step 1: // For Pure Java Only Apps, Kotlin user's or people who have enabled kotlin support can Skip to Step 2:
+
+For users who want to continue using Java and use this library, you have to enable kotlin support
+Tools -> Kotlin -> Configure Kotlin in Project
+In the choose configurator popup, select Android with Gradle
+You can click ok for the next popup with the option "All Modules"
+Other than a few lines in your Gradle files nothing else would've changed and you can follow the rest of the steps to use the library and continue writing in Java
+
+Step 2:
+
+Setup is a bit messy, you'll have to download the entire project, and import it to Android Studio
 Goto Gradle(the option in the right side pane) -> :library -> Tasks -> build -> assemble -> it will generate two aars in your library/build/outputs/aar directory
 You can select the library-release.aar rename it spring.aar and put it in your app's libs directory usually right under the app directory like app/libs 
 then in gradle you have to set the repositories like below
@@ -44,31 +56,73 @@ then in gradle you have to set the repositories like below
         }
     }
 ```
-and in dependencies add 
 
-```gradle
-    implementation (name: 'spring', ext:'aar')
-    implementation 'nl.qbusict:cupboard:2.2.0'
-```
+Step 3:
 
-if you want use the no-op library you can follow the above steps for the library-no-op and with generated aars keep it like
+For the no-op library you can follow the above steps for the library-no-op and with generated aars keep it like
 (assuming you rename the no-op aar to spring-no-op)
 
 ```gradle
     debugImplementation (name: 'spring', ext:'aar')
     debugImplementation 'nl.qbusict:cupboard:2.2.0'
+    debugImplementation 'com.google.code.gson:gson:2.8.5'
+    debugImplementation 'com.squareup.okhttp3:okhttp:3.6.0'
+    debugImplementation 'com.google.android.material:material:1.0.0'
+    debugImplementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.21'
+   
     releaseImplementation (name: 'spring-no-op, ext'aar')
 ```
 
-In your application code, create an instance of `SpringInterceptor` (you'll need to provide it with a `Context`, because Android) and add it as an interceptor when building your OkHttp client:
+Step 4:
 
+Use an instance of `SpringInterceptor(context)` and add it as an interceptor when building your OkHttp client:
+
+Java
 ```java
 OkHttpClient client = new OkHttpClient.Builder()
   .addInterceptor(new SpringInterceptor(context))
   .build();
 ```
 
-That's it! Spring will now record all HTTP interactions made by your OkHttp client. You can optionally disable the notification by calling `showNotification(false)` on the interceptor instance, and launch the Springs UI directly within your app with the intent from `Spring.INSTANCE.getLaunchIntent(context)`.
+Kotlin
+```kotlin
+val client = OkHttpClient.Builder()
+  .addInterceptor(SpringInterceptor(context))
+  .build()
+```
+
+Step 5:
+
+Spring will now record all HTTP interactions made by your OkHttp client. You can optionally disable the notification by calling `showNotification(false)` on the interceptor instance, 
+and launch the Springs UI directly within your app with the intent from 
+`Spring.INSTANCE.getLaunchIntent(context)` for Java and in Kotlin using `Spring.getLaunchIntent(context)`
+
+EXTRA FEATURES
+--------------
+
+You can pre-configure how the Spring Network Activity UI looks by interacting with the Spring singleton
+
+        //For Java
+        Spring.INSTANCE.setTitle("Title");
+        Spring.INSTANCE.setSubTitle("Subtitle"); // Setting null or no value will show only Title
+        Spring.INSTANCE.setStatusBarColorHex("#000000");
+        Spring.INSTANCE.setActionBarColorHex("#000000");
+        Spring.INSTANCE.setSubtitle(getString(R.string.app_name));
+        Spring.INSTANCE.setTabBarBackgroundColorHex("#000000");
+        Spring.INSTANCE.setTabBarIndicatorColorHex("#FFFFFF");
+        
+        //For Kotlin
+        Sping.apply{
+            val colorPrimary = "#333333"
+            val colorPrimaryDark = "#292929"
+            val toroRed = "#C9232D"
+            title = "Toro Network Inspector"
+            actionBarColorHex = colorPrimary
+            statusBarColorHex = colorPrimaryDark
+            tabBarBackgroundColorHex = colorPrimary
+            tabBarIndicatorColorHex = toroRed
+            allowOrientationChange = false
+        }
 
 FAQ
 ---

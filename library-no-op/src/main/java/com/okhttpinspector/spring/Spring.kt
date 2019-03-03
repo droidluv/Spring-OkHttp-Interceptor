@@ -22,6 +22,44 @@ import android.content.Intent
  * No-op implementation.
  */
 object Spring {
+
+    /**
+     *   No Op
+     */
+    var subtitle: String? = null
+
+    /**
+     *
+     */
+    var title: String? = null
+
+    /**
+     *  No Op
+     */
+    var statusBarColorHex: String = "#0524ad"
+
+    /**
+     *  No Op
+     */
+    var actionBarColorHex: String = "#1234d0"
+
+    /**
+     *  No Op
+     */
+    var tabBarBackgroundColorHex: String = "#1234d0"
+    /**
+     *  No Op
+     */
+    var tabBarIndicatorColorHex: String = "#2ce049"
+
+    /**
+     * No Op
+     */
+    var allowOrientationChange: Boolean = false
+
+    /**
+     * No Op
+     */
     fun getLaunchIntent(context: Context): Intent {
         return Intent()
     }

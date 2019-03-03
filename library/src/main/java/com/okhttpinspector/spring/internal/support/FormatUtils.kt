@@ -51,7 +51,7 @@ object FormatUtils {
         return String.format(Locale.US, "%.1f %sB", bytes / Math.pow(unit.toDouble(), exp.toDouble()), pre)
     }
 
-    fun formatJson(json: String): String {
+    fun formatJson(json: String?): String? {
         return try {
             val jp = JsonParser()
             val je = jp.parse(json)
@@ -62,12 +62,12 @@ object FormatUtils {
 
     }
 
-    fun formatXml(xml: String): String {
+    fun formatXml(xml: String?): String? {
         return try {
             val serializer = SAXTransformerFactory.newInstance().newTransformer()
             serializer.setOutputProperty(OutputKeys.INDENT, "yes")
             serializer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2")
-            val xmlSource = SAXSource(InputSource(ByteArrayInputStream(xml.toByteArray())))
+            val xmlSource = SAXSource(InputSource(ByteArrayInputStream(xml?.toByteArray())))
             val res = StreamResult(ByteArrayOutputStream())
             serializer.transform(xmlSource, res)
             String((res.outputStream as ByteArrayOutputStream).toByteArray())
@@ -95,7 +95,7 @@ object FormatUtils {
         text += context.getString(R.string.spring_total_size) + ": " + v(transaction.totalSizeString) + "\n"
         text += "\n"
         text += "---------- " + context.getString(R.string.spring_request) + " ----------\n\n"
-        var headers = formatHeaders(transaction.getRequestHeaders(), false)
+        var headers = formatHeaders(transaction.requestHeaders, false)
         if (!TextUtils.isEmpty(headers)) {
             text += headers + "\n"
         }
@@ -105,7 +105,7 @@ object FormatUtils {
             context.getString(R.string.spring_body_omitted)
         text += "\n\n"
         text += "---------- " + context.getString(R.string.spring_response) + " ----------\n\n"
-        headers = formatHeaders(transaction.getResponseHeaders(), false)
+        headers = formatHeaders(transaction.responseHeaders, false)
         if (!TextUtils.isEmpty(headers)) {
             text += headers + "\n"
         }
@@ -120,9 +120,9 @@ object FormatUtils {
         var compressed = false
         var curlCmd = "curl"
         curlCmd += " -X " + transaction.method!!
-        val headers = transaction.getRequestHeaders()
+        val headers = transaction.requestHeaders
         var i = 0
-        val count = headers!!.size
+        val count = headers?.size ?: 0
         while (i < count) {
             val name = headers[i].name
             val value = headers[i].value
@@ -133,7 +133,7 @@ object FormatUtils {
             i++
         }
         val requestBody = transaction.requestBody
-        if (requestBody != null && requestBody.length > 0) {
+        if (requestBody != null && requestBody.isNotEmpty()) {
             // try to keep to a single line and use a subshell to preserve any line breaks
             curlCmd += " --data $'" + requestBody.replace("\n", "\\n") + "'"
         }

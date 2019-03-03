@@ -15,9 +15,14 @@
  */
 package com.okhttpinspector.spring.internal.ui
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import com.okhttpinspector.spring.R
+import com.okhttpinspector.spring.Spring
 import com.okhttpinspector.spring.internal.data.HttpTransaction
+import com.okhttpinspector.spring.internal.support.changeStatusBarColor
+import com.okhttpinspector.spring.internal.support.getColorResource
+import com.okhttpinspector.spring.internal.support.parseColor
 import kotlinx.android.synthetic.main.spring_activity_main.*
 
 class SpringMainActivity : SpringBaseActivity(), SpringTransactionListFragment.OnListFragmentInteractionListener {
@@ -32,8 +37,17 @@ class SpringMainActivity : SpringBaseActivity(), SpringTransactionListFragment.O
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.spring_activity_main)
+
+        requestedOrientation = if(Spring.allowOrientationChange) ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+        else ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
         setSupportActionBar(toolbar)
-        toolbar.subtitle = applicationName
+        changeStatusBarColor(Spring.statusBarColorHex.parseColor(this getColorResource R.color.spring_colorPrimaryDark ), false)
+
+        toolbar.setBackgroundColor(Spring.actionBarColorHex.parseColor(this getColorResource R.color.spring_colorPrimary))
+        if(Spring.subtitle != null) toolbar.subtitle = applicationName
+        supportActionBar?.title = Spring.title ?: getString(R.string.spring_name)
+
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                     .add(R.id.container, SpringTransactionListFragment.newInstance())
