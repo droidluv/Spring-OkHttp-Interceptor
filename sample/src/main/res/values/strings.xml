@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Chuck Sample</string>
-    <string name="do_http_activity">Do HTTP activity</string>
-    <string name="launch_chuck_directly">Launch Chuck directly</string>
+    <string name="app_name">Spring Sample</string>
+    <string name="do_http_activity">Make Network Calls</string>
+    <string name="launch_chuck_directly">Show Spring UI</string>
 </resources>

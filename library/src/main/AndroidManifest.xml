@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- ~ Copyright (C) 2017 Jeff Gilfelt.
+ ~ Copyright (C) 2019 Sebi Sheldin Sebastians.
  ~
  ~ Licensed under the Apache License, Version 2.0 (the "License");
  ~ you may not use this file except in compliance with the License.
@@ -15,23 +15,23 @@
  ~ limitations under the License.
  -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.readystatesoftware.chuck">
+    package="com.okhttpinspector.spring">
     <application>
         <provider
-            android:name=".internal.data.ChuckContentProvider"
+            android:name="com.okhttpinspector.spring.internal.data.SpringContentProvider"
             android:authorities="${applicationId}.chuck.provider"
             android:exported="false" />
         <activity
-            android:name=".internal.ui.MainActivity"
-            android:label="@string/chuck_name"
+            android:name="com.okhttpinspector.spring.internal.ui.SpringMainActivity"
+            android:label="@string/spring_name"
             android:launchMode="singleTask"
-            android:taskAffinity="com.readystatesoftware.chuck.task"
-            android:theme="@style/Chuck.Theme" />
-        <activity android:name=".internal.ui.TransactionActivity"
-            android:theme="@style/Chuck.Theme"
-            android:parentActivityName=".internal.ui.MainActivity"/>
+            android:taskAffinity="com.okhttpinspector.spring.task"
+            android:theme="@style/Spring.Theme" />
+        <activity android:name="com.okhttpinspector.spring.internal.ui.SpringTransactionActivity"
+            android:theme="@style/Spring.Theme"
+            android:parentActivityName="com.okhttpinspector.spring.internal.ui.SpringMainActivity"/>
         <service
-            android:name=".internal.support.ClearTransactionsService"
+            android:name="com.okhttpinspector.spring.internal.support.ClearTransactionsService"
             android:exported="false" />
     </application>
 </manifest>

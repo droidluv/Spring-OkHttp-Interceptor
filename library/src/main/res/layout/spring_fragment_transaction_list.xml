@@ -14,15 +14,13 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  -->
-<resources>
-    <color name="spring_colorPrimary">#1234d0</color>
-    <color name="spring_colorPrimaryDark">#0524ad</color>
-    <color name="spring_colorAccent">#2ce049</color>
-
-    <color name="spring_status_default">#212121</color>
-    <color name="spring_status_requested">#9E9E9E</color>
-    <color name="spring_status_error">#F44336</color>
-    <color name="spring_status_500">#B71C1C</color>
-    <color name="spring_status_400">#FF9800</color>
-    <color name="spring_status_300">#0D47A1</color>
-</resources>
+<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="vertical"
+    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+    tools:context=".internal.ui.SpringTransactionListFragment"
+    tools:listitem="@layout/spring_list_item_transaction" />

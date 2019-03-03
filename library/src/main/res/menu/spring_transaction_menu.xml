@@ -14,15 +14,18 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License.
  -->
-<resources>
-    <color name="spring_colorPrimary">#1234d0</color>
-    <color name="spring_colorPrimaryDark">#0524ad</color>
-    <color name="spring_colorAccent">#2ce049</color>
-
-    <color name="spring_status_default">#212121</color>
-    <color name="spring_status_requested">#9E9E9E</color>
-    <color name="spring_status_error">#F44336</color>
-    <color name="spring_status_500">#B71C1C</color>
-    <color name="spring_status_400">#FF9800</color>
-    <color name="spring_status_300">#0D47A1</color>
-</resources>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
+    <item android:title="@string/spring_share"
+        android:icon="@drawable/spring_vector_share"
+        app:showAsAction="always" >
+        <menu >
+            <group >
+                <item android:title="@string/spring_share_as_text"
+                    android:id="@+id/share_text"/>
+                <item android:title="@string/spring_share_as_curl"
+                    android:id="@+id/share_curl"/>
+            </group>
+        </menu>
+    </item>
+</menu>
