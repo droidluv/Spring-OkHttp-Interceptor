@@ -1,13 +1,6 @@
-This is a fork of the original [Chuck](https://github.com/jgilfelt/chuck) project so right now I have no repositories setup, read the setup instructions to have this version of Chuck up and running
+This is a fork of [Chuck](https://github.com/jgilfelt/chuck)
 
-I will plan on adding more features, renaming the project and package, to make this fork more distinct, and more importantly setting up a repository
-
-The improvements done are:
-* The library and the no-op versions have been updated to use kotlin (sample is still kept in java so that even java users can understand how to work with this library version)
-* Androidx conversion
-* Updated gradle dependencies
-
-Why the kotlin upgrade? Its to further reduce any NPE possibilities, and have a more modern language with concise code, like with this update itself number of lines must have reduced by several lines
+Note: I have no repositories setup, read the setup instructions to have this project up and running, I'll consider providing aar's in the future so the setup can excude the building of the aar
 
 Spring
 ======
@@ -20,14 +13,14 @@ Apps using Spring will display a notification showing a summary of ongoing HTTP 
 
 The main Spring activity is launched in its own task, allowing it to be displayed alongside the host app UI using Android 7.x multi-window support.
 
-Spring requires Android 4.1+ and OkHttp 3.x. and is for AndroidX based projects
+Spring requires Android 4.1+ and OkHttp 3.x. and is for AndroidX based projects and Kotlin Support for your project
 
 **Warning**: The data generated and stored when using this interceptor may contain sensitive information such as Authorization or Cookie headers, and the contents of request and response bodies. It is intended for use during development, and not in release builds or other production deployments.
 
 Setup
 -----
 
-This library can be used only with apps upgraded for AndroidX
+This library can be used only with apps upgraded for AndroidX (For support library users check out the orignal project [Chuck](https://github.com/jgilfelt/chuck))
 
 Step 1: // For Pure Java Only Apps, Kotlin user's or people who have enabled kotlin support can Skip to Step 2:
 
@@ -39,10 +32,9 @@ Other than a few lines in your Gradle files nothing else would've changed and yo
 
 Step 2:
 
-Setup is a bit messy, you'll have to download the entire project, and import it to Android Studio
-Goto Gradle(the option in the right side pane) -> :library -> Tasks -> build -> assemble -> it will generate two aars in your library/build/outputs/aar directory
-You can select the library-release.aar rename it spring.aar and put it in your app's libs directory usually right under the app directory like app/libs 
-then in gradle you have to set the repositories like below
+Setup is a bit messy, you'll have to download the entire project, and import it to Android Studio.
+Goto Gradle(the option in the right side pane) -> :library -> Tasks -> build -> assemble -> it will generate two aars in your library/build/outputs/aar directory.
+You can select the library-release.aar rename it spring.aar and put it in your app's libs directory usually right under the app directory like app/libs then in gradle you have to set the repositories like below.
 
 ```gradle
 
@@ -59,8 +51,7 @@ then in gradle you have to set the repositories like below
 
 Step 3:
 
-For the no-op library you can follow the above steps for the library-no-op and with generated aars keep it like
-(assuming you rename the no-op aar to spring-no-op)
+For the no-op library you can follow the above steps for the library-no-op and with generated aars keep it like (assuming you rename the no-op aar to spring-no-op)
 
 ```gradle
     debugImplementation (name: 'spring', ext:'aar')
@@ -93,9 +84,7 @@ val client = OkHttpClient.Builder()
 
 Step 5:
 
-Spring will now record all HTTP interactions made by your OkHttp client. You can optionally disable the notification by calling `showNotification(false)` on the interceptor instance, 
-and launch the Springs UI directly within your app with the intent from 
-`Spring.INSTANCE.getLaunchIntent(context)` for Java and in Kotlin using `Spring.getLaunchIntent(context)`
+Spring will now record all HTTP interactions made by your OkHttp client. You can optionally disable the notification by calling `showNotification(false)` on the interceptor instance, and launch the Springs UI directly within your app with the intent from `Spring.INSTANCE.getLaunchIntent(context)` for Java and in Kotlin using `Spring.getLaunchIntent(context)`
 
 EXTRA FEATURES
 --------------
@@ -113,14 +102,13 @@ You can pre-configure how the Spring Network Activity UI looks by interacting wi
         
         //For Kotlin
         Sping.apply{
-            val colorPrimary = "#333333"
-            val colorPrimaryDark = "#292929"
-            val toroRed = "#C9232D"
-            title = "Toro Network Inspector"
-            actionBarColorHex = colorPrimary
-            statusBarColorHex = colorPrimaryDark
-            tabBarBackgroundColorHex = colorPrimary
-            tabBarIndicatorColorHex = toroRed
+            val black = "#000000"
+            val white = "#FFFFFF"
+            title = "BlaBla Network Inspector"
+            actionBarColorHex = black
+            statusBarColorHex = black
+            tabBarBackgroundColorHex = black
+            tabBarIndicatorColorHex = white
             allowOrientationChange = false
         }
 
