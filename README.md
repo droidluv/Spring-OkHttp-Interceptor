@@ -1,6 +1,6 @@
 This is a fork of [Chuck](https://github.com/jgilfelt/chuck)
 
-Note: I have no repositories setup, read the setup instructions to have this project up and running, I'll consider providing aar's in the future so the setup can excude the building of the aar
+Note: I have no repositories setup, read the setup instructions to have this project up and running, I'll consider providing aar's in the future so the setup can exclude the building of the aar
 
 Spring
 ======
@@ -95,7 +95,7 @@ You can pre-configure how the Spring Network Activity UI looks by interacting wi
         Spring.INSTANCE.setTitle("Title");
         Spring.INSTANCE.setSubTitle("Subtitle"); // Setting null or no value will show only Title
         Spring.INSTANCE.setStatusBarColorHex("#000000");
-        Spring.INSTANCE.setActionBarColorHex("#000000");
+        Spring.INSTANCE.setActionBarColorHex("#000000");//This will be used for the notification color accent
         Spring.INSTANCE.setSubtitle(getString(R.string.app_name));
         Spring.INSTANCE.setTabBarBackgroundColorHex("#000000");
         Spring.INSTANCE.setTabBarIndicatorColorHex("#FFFFFF");
@@ -111,6 +111,19 @@ You can pre-configure how the Spring Network Activity UI looks by interacting wi
             tabBarIndicatorColorHex = white
             allowOrientationChange = false
         }
+        
+PROGUARD
+--------
+
+If you want to use Spring in a signed build with Proguard for some reason just exclude Spring
+
+```proguard
+#Spring
+-keep public class com.okhttpinspector.spring.** {
+    public protected *;
+    private <fields>;
+}
+```
 
 FAQ
 ---

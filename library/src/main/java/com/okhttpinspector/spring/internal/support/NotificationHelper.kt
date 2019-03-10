@@ -20,6 +20,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.util.LongSparseArray
 import androidx.core.app.NotificationCompat
@@ -58,7 +59,7 @@ class NotificationHelper(private val context: Context) {
                     .setContentIntent(PendingIntent.getActivity(context, 0, Spring.getLaunchIntent(context), 0))
                     .setLocalOnly(true)
                     .setSmallIcon(R.drawable.spring_vector_upload_download)
-                    .setColor(ContextCompat.getColor(context, R.color.spring_colorPrimary))
+                    .setColor(Spring.actionBarColorHex.parseColor(Color.BLACK))
                     .setContentTitle(context.getString(R.string.spring_notification_title))
             val inboxStyle = NotificationCompat.InboxStyle()
             for ((count, i) in (transactionBuffer.size() - 1 downTo 0).withIndex()) {

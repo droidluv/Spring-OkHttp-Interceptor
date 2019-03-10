@@ -47,6 +47,7 @@ class SpringMainActivity : SpringBaseActivity(), SpringTransactionListFragment.O
         toolbar.setBackgroundColor(Spring.actionBarColorHex.parseColor(this getColorResource R.color.spring_colorPrimary))
         if(Spring.subtitle != null) toolbar.subtitle = applicationName
         supportActionBar?.title = Spring.title ?: getString(R.string.spring_name)
+        this.title = Spring.title ?: getString(R.string.spring_name)
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
