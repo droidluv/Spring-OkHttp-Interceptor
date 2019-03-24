@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
+apply plugin: 'org.jetbrains.dokka'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -19,6 +20,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    dokka {
+        outputFormat = 'html'
+        outputDirectory = "$buildDir/javadoc"
+    }
 }
 
 dependencies {
@@ -27,4 +33,33 @@ dependencies {
 }
 repositories {
     mavenCentral()
+}
+
+
+ext{
+
+    bintrayRepo = 'maven'
+    bintrayName = 'spring'
+
+    publishedGroupId = GROUP
+    libraryName = 'Spring OkHttp Interceptor'
+    artifact = "spring-no-op"
+
+    libraryDescription = 'An in-app HTTP inspector for Android OkHttp clients'
+
+    siteUrl = 'https://github.com/droidluv/Spring-OkHttp-Interceptor'
+    gitUrl = 'https://github.com/droidluv/Spring-OkHttp-Interceptor.git'
+
+    libraryVersion = VERSION_NAME
+
+    developerId = 'droidluv'
+    developerName = 'Sebi Sheldin Sebastian'
+    developerEmail = 'dragonrough@gmail.com'
+    organization = null
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+
+    apply from: 'https://raw.githubusercontent.com/quangctkm9207/template-files/master/android/gradle/install.gradle'
+    apply from: 'https://raw.githubusercontent.com/quangctkm9207/template-files/master/android/gradle/bintray.gradle'
 }

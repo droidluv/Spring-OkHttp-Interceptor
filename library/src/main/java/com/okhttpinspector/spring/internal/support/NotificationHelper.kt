@@ -24,12 +24,10 @@ import android.graphics.Color
 import android.os.Build
 import android.util.LongSparseArray
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat
 import com.okhttpinspector.spring.R
 import com.okhttpinspector.spring.Spring
 import com.okhttpinspector.spring.internal.data.HttpTransaction
 import com.okhttpinspector.spring.internal.ui.SpringBaseActivity
-import java.lang.reflect.Method
 
 class NotificationHelper(private val context: Context) {
     private val notificationManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -63,11 +61,12 @@ class NotificationHelper(private val context: Context) {
                     .setContentTitle(context.getString(R.string.spring_notification_title))
             val inboxStyle = NotificationCompat.InboxStyle()
             for ((count, i) in (transactionBuffer.size() - 1 downTo 0).withIndex()) {
+                val notificationText = transactionBuffer.valueAt(i)?.notificationText ?: "NULL"
                 if (count < BUFFER_SIZE) {
                     if (count == 0) {
-                        builder.setContentText(transactionBuffer.valueAt(i).notificationText)
+                        builder.setContentText(notificationText)
                     }
-                    inboxStyle.addLine(transactionBuffer.valueAt(i).notificationText)
+                    inboxStyle.addLine(notificationText)
                 }
             }
             builder.setAutoCancel(true)
@@ -92,7 +91,7 @@ class NotificationHelper(private val context: Context) {
         private const val NOTIFICATION_ID = 1230
         private const val BUFFER_SIZE = 10
 
-        private val transactionBuffer = LongSparseArray<HttpTransaction>()
+        private val transactionBuffer = LongSparseArray<HttpTransaction?>()
         private var transactionCount: Int = 0
 
         @Synchronized

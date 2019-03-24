@@ -27,13 +27,6 @@ import kotlinx.android.synthetic.main.spring_activity_main.*
 
 class SpringMainActivity : SpringBaseActivity(), SpringTransactionListFragment.OnListFragmentInteractionListener {
 
-    private val applicationName: String
-        get() {
-            val applicationInfo = applicationInfo
-            val stringId = applicationInfo.labelRes
-            return if (stringId == 0) applicationInfo.nonLocalizedLabel.toString() else getString(stringId)
-        }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.spring_activity_main)
@@ -45,7 +38,7 @@ class SpringMainActivity : SpringBaseActivity(), SpringTransactionListFragment.O
         changeStatusBarColor(Spring.statusBarColorHex.parseColor(this getColorResource R.color.spring_colorPrimaryDark ), false)
 
         toolbar.setBackgroundColor(Spring.actionBarColorHex.parseColor(this getColorResource R.color.spring_colorPrimary))
-        if(Spring.subtitle != null) toolbar.subtitle = applicationName
+        if (Spring.subtitle != null) toolbar.subtitle = Spring.subtitle
         supportActionBar?.title = Spring.title ?: getString(R.string.spring_name)
         this.title = Spring.title ?: getString(R.string.spring_name)
 

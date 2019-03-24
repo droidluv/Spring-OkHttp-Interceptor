@@ -32,39 +32,23 @@ Other than a few lines in your Gradle files nothing else would've changed and yo
 
 Step 2:
 
-Setup is a bit messy, you'll have to download the entire project, and import it to Android Studio.
-Goto Gradle(the option in the right side pane) -> :library -> Tasks -> build -> assemble -> it will generate two aars in your library/build/outputs/aar directory.
-You can select the library-release.aar rename it spring.aar and put it in your app's libs directory usually right under the app directory like app/libs then in gradle you have to set the repositories like below.
+Include dependencies
 
 ```gradle
+    releaseImplementation 'com.okhttpinspector.spring:spring:1.0.1'
+    debugImplementation 'com.okhttpinspector.spring:spring-no-op:1.0.1'
+```    
 
-    defaultConfig {
-        .....
-    }
-    
+and in repositories
+
+``` 
     repositories {
-        flatDir {
-            dirs 'libs'
+            maven { url "https://dl.bintray.com/droidluv/maven" }
         }
-    }
+    
 ```
 
 Step 3:
-
-For the no-op library you can follow the above steps for the library-no-op and with generated aars keep it like (assuming you rename the no-op aar to spring-no-op)
-
-```gradle
-    debugImplementation (name: 'spring', ext:'aar')
-    debugImplementation 'nl.qbusict:cupboard:2.2.0'
-    debugImplementation 'com.google.code.gson:gson:2.8.5'
-    debugImplementation 'com.squareup.okhttp3:okhttp:3.6.0'
-    debugImplementation 'com.google.android.material:material:1.0.0'
-    debugImplementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.21'
-   
-    releaseImplementation (name: 'spring-no-op, ext'aar')
-```
-
-Step 4:
 
 Use an instance of `SpringInterceptor(context)` and add it as an interceptor when building your OkHttp client:
 
@@ -82,7 +66,7 @@ val client = OkHttpClient.Builder()
   .build()
 ```
 
-Step 5:
+Step 4:
 
 Spring will now record all HTTP interactions made by your OkHttp client. You can optionally disable the notification by calling `showNotification(false)` on the interceptor instance, and launch the Springs UI directly within your app with the intent from `Spring.INSTANCE.getLaunchIntent(context)` for Java and in Kotlin using `Spring.getLaunchIntent(context)`
 

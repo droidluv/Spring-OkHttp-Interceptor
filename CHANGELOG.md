@@ -1,6 +1,15 @@
 Change Log
 ==========
 
+Un-versioned Fixes after first release
+--------------------------------------
+
+* Fixed a crash possibility when the transaction buffer stores a null
+
+
+Original Chuck Change Logs
+==========================
+
 Version 1.1.0 *(2017-08-06)*
 ----------------------------
 

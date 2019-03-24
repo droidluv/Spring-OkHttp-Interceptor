@@ -185,14 +185,11 @@ class SpringInterceptor(context: Context) : Interceptor {
             val buffer = source.buffer()
             var charset = UTF8
             val contentType = responseBody?.contentType()
-            if (contentType != null) {
-                try {
-                    charset = contentType.charset(UTF8)
-                } catch (e: UnsupportedCharsetException) {
-                    update(transaction, transactionUri)
-                    return response
-                }
-
+            if (contentType != null) try {
+                charset = contentType.charset(UTF8)
+            } catch (e: UnsupportedCharsetException) {
+                update(transaction, transactionUri)
+                return response
             }
             if (isPlaintext(buffer)) {
                 transaction.responseBody = readFromBuffer(buffer.clone(), charset)
