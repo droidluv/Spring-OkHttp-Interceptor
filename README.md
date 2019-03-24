@@ -11,7 +11,7 @@ Apps using Spring will display a notification showing a summary of ongoing HTTP 
 
 The main Spring activity is launched in its own task, allowing it to be displayed alongside the host app UI using Android 7.x multi-window support.
 
-Spring requires Android 4.1+ and OkHttp 3.x. and is for AndroidX based projects and Kotlin Support for your project
+Spring requires Android 4.1+ and OkHttp 3.x. and is for AndroidX based projects and is updated to be kotlin based
 
 **Warning**: The data generated and stored when using this interceptor may contain sensitive information such as Authorization or Cookie headers, and the contents of request and response bodies. It is intended for use during development, and not in release builds or other production deployments.
 
