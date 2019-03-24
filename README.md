@@ -1,7 +1,5 @@
 This is a fork of [Chuck](https://github.com/jgilfelt/chuck)
 
-Note: I have no repositories setup, read the setup instructions to have this project up and running, I'll consider providing aar's in the future so the setup can exclude the building of the aar
-
 Spring
 ======
 
@@ -20,7 +18,7 @@ Spring requires Android 4.1+ and OkHttp 3.x. and is for AndroidX based projects 
 Setup
 -----
 
-This library can be used only with apps upgraded for AndroidX (For support library users check out the orignal project [Chuck](https://github.com/jgilfelt/chuck))
+This library can be used only with apps upgraded for AndroidX (For support library users check out the original project [Chuck](https://github.com/jgilfelt/chuck))
 
 Step 1: // For Pure Java Only Apps, Kotlin user's or people who have enabled kotlin support can Skip to Step 2:
 
@@ -32,11 +30,11 @@ Other than a few lines in your Gradle files nothing else would've changed and yo
 
 Step 2:
 
-Include dependencies
+Include dependencies, the spring-no-op variant can be used for release flavors, to completely disable Spring for release variants
 
 ```gradle
-    releaseImplementation 'com.okhttpinspector.spring:spring:1.0.1'
-    debugImplementation 'com.okhttpinspector.spring:spring-no-op:1.0.1'
+    releaseImplementation 'com.okhttpinspector.spring:spring-no-op:1.0.2'
+    debugImplementation 'com.okhttpinspector.spring:spring:1.0.2'
 ```    
 
 and in repositories
