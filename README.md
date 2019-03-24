@@ -1,3 +1,5 @@
+[ ![Download](https://api.bintray.com/packages/droidluv/maven/spring/images/download.svg?version=1.0.2) ](https://bintray.com/droidluv/maven/spring/1.0.2/link)
+
 This is a fork of [Chuck](https://github.com/jgilfelt/chuck)
 
 Spring
