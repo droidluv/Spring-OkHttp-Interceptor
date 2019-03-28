@@ -39,15 +39,6 @@ Include dependencies, the spring-no-op variant can be used for release flavors, 
     debugImplementation 'com.okhttpinspector.spring:spring:1.0.2'
 ```    
 
-and in repositories
-
-``` 
-    repositories {
-            maven { url "https://dl.bintray.com/droidluv/maven" }
-        }
-    
-```
-
 Step 3:
 
 Use an instance of `SpringInterceptor(context)` and add it as an interceptor when building your OkHttp client:
