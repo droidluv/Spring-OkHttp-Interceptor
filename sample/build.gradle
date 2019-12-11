@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -8,7 +8,7 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        applicationId "com.readystatesoftware.chuck.sample"
+        applicationId "com.okhttpinspector.spring.sample"
         versionCode 1
         versionName "1.0"
     }
@@ -23,16 +23,23 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    android {
+        compileOptions {
+            sourceCompatibility 1.8
+            targetCompatibility 1.8
+        }
+    }
 }
 
 dependencies {
     debugImplementation project(':library')
     releaseImplementation project(':library-no-op')
-    implementation 'com.google.android.material:material:1.1.0-alpha04'
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha03'
+    implementation 'com.google.android.material:material:1.2.0-alpha02'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3Version"
-    implementation "com.squareup.retrofit2:retrofit:2.5.0"
-    implementation "com.squareup.retrofit2:converter-gson:2.5.0"
+    implementation 'com.squareup.retrofit2:retrofit:2.7.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.7.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 repositories {

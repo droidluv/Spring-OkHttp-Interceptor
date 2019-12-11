@@ -15,10 +15,17 @@
  */
 package com.okhttpinspector.spring.internal.ui
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import com.okhttpinspector.spring.R
+import com.okhttpinspector.spring.Spring
 
 import com.okhttpinspector.spring.internal.support.NotificationHelper
+import com.okhttpinspector.spring.internal.support.changeStatusBarColor
+import com.okhttpinspector.spring.internal.support.getColorResource
+import com.okhttpinspector.spring.internal.support.parseColor
 
 abstract class SpringBaseActivity : AppCompatActivity() {
 
@@ -26,6 +33,12 @@ abstract class SpringBaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        changeStatusBarColor(Spring.statusBarColorHex.parseColor(this getColorResource R.color.spring_colorPrimaryDark), false)
+        requestedOrientation = if (Spring.allowOrientationChange) ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+        else ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         notificationHelper = NotificationHelper(this)
     }
 

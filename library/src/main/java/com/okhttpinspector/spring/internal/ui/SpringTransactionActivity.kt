@@ -18,10 +18,7 @@ package com.okhttpinspector.spring.internal.ui
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
-import android.content.pm.ActivityInfo
-import android.content.res.ColorStateList
 import android.database.Cursor
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -37,7 +34,10 @@ import com.okhttpinspector.spring.Spring
 import com.okhttpinspector.spring.internal.data.HttpTransaction
 import com.okhttpinspector.spring.internal.data.LocalCupboard
 import com.okhttpinspector.spring.internal.data.SpringContentProvider
-import com.okhttpinspector.spring.internal.support.*
+import com.okhttpinspector.spring.internal.support.FormatUtils
+import com.okhttpinspector.spring.internal.support.SimpleOnPageChangedListener
+import com.okhttpinspector.spring.internal.support.getColorResource
+import com.okhttpinspector.spring.internal.support.parseColor
 import kotlinx.android.synthetic.main.spring_activity_transaction.*
 import java.util.*
 
@@ -51,12 +51,7 @@ class SpringTransactionActivity : SpringBaseActivity(), LoaderManager.LoaderCall
         super.onCreate(savedInstanceState)
         setContentView(R.layout.spring_activity_transaction)
 
-        requestedOrientation = if(Spring.allowOrientationChange) ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-        else ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-
         setSupportActionBar(toolbar)
-        changeStatusBarColor(Spring.statusBarColorHex.parseColor(this getColorResource R.color.spring_colorPrimaryDark ), false)
-
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         setupViewPager(viewpager)
         tabs.setupWithViewPager(viewpager)
@@ -83,11 +78,13 @@ class SpringTransactionActivity : SpringBaseActivity(), LoaderManager.LoaderCall
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when {
             item.itemId == R.id.share_text -> {
-                share(FormatUtils.getShareText(this, transaction!!))
+                share("Info of " + (transaction?.url
+                        ?: "API Call"), FormatUtils.getShareText(this, transaction))
                 true
             }
             item.itemId == R.id.share_curl -> {
-                share(FormatUtils.getShareCurlCommand(transaction!!))
+                share("Curl for " + (transaction?.url
+                        ?: "API Curl"), FormatUtils.getShareCurlCommand(transaction))
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -132,9 +129,11 @@ class SpringTransactionActivity : SpringBaseActivity(), LoaderManager.LoaderCall
         viewPager.currentItem = selectedTabPosition
     }
 
-    private fun share(content: String) {
+    private fun share(title: String, content: String) {
         val sendIntent = Intent()
         sendIntent.action = Intent.ACTION_SEND
+        sendIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(""))
+        sendIntent.putExtra(Intent.EXTRA_SUBJECT, title)
         sendIntent.putExtra(Intent.EXTRA_TEXT, content)
         sendIntent.type = "text/plain"
         startActivity(Intent.createChooser(sendIntent, null))

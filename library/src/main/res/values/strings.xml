@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  ~ Copyright (C) 2019 Sebi Sheldin Sebastian.
  ~
  ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -43,4 +42,17 @@
     <string name="spring_body_unexpected_eof">\n\n--- Unexpected end of content ---</string>
     <string name="spring_body_content_truncated">\n\n--- Content truncated ---</string>
     <string name="spring_notification_category">Spring HTTP notifications</string>
+    <string name="spring_override">Override</string>
+    <string name="override_urls_containing_the_string_s">Override url(s) containing the string(s)\nNote:You can give entire urls or keywords to match with</string>
+    <string name="spring_txt_save">Save</string>
+    <string name="select_the_method_type_to_override">Select the method type to override</string>
+    <string name="replace_matched_url_with">Replace matched url with</string>
+    <string name="replacement_rule">Replacement Rule</string>
+    <string name="spring_key">Key</string>
+    <string name="spring_value">Value</string>
+    <string name="spring_replacement_response">Replacement response</string>
+    <string name="spring_replace_add_headers">Replace/Add Headers</string>
+    <string name="spring_change_response_type_to">Change response type to</string>
+    <string name="spring_change_method_type_to">Change method type to</string>
+    <string name="spring_text_to_replace_in_original_url">Text to replace in original url</string>
 </resources>

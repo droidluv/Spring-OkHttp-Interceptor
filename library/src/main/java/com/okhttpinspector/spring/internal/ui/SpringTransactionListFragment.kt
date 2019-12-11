@@ -16,6 +16,7 @@
 package com.okhttpinspector.spring.internal.ui
 
 import android.content.Context
+import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
 import android.text.TextUtils
@@ -119,16 +120,20 @@ class SpringTransactionListFragment : Fragment(), SearchView.OnQueryTextListener
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when {
-            item.itemId == R.id.clear -> {
+        return when (item.itemId) {
+            R.id.clear -> {
                 context?.contentResolver?.delete(SpringContentProvider.TRANSACTION_URI, null, null)
                 NotificationHelper.clearBuffer()
                 true
             }
-            item.itemId == R.id.browse_sql -> {
+            R.id.browse_sql -> {
                 context?.let {
                     SQLiteUtils.browseDatabase(it)
                 }
+                true
+            }
+            R.id.override -> {
+                context?.let { startActivity(Intent(it, SpringOverrideListActivity::class.java)) }
                 true
             }
             else -> super.onOptionsItemSelected(item)

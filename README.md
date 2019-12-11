@@ -1,4 +1,4 @@
-[ ![Download](https://api.bintray.com/packages/droidluv/maven/spring/images/download.svg?version=1.0.2) ](https://bintray.com/droidluv/maven/spring/1.0.2/link)
+[ ![Download](https://api.bintray.com/packages/droidluv/maven/spring/images/download.svg?version=1.0.3) ](https://bintray.com/droidluv/maven/spring/1.0.3/link)
 
 This is a fork of [Chuck](https://github.com/jgilfelt/chuck)
 
@@ -13,9 +13,14 @@ Apps using Spring will display a notification showing a summary of ongoing HTTP 
 
 The main Spring activity is launched in its own task, allowing it to be displayed alongside the host app UI using Android 7.x multi-window support.
 
-Spring requires Android 4.1+ and OkHttp 3.x. and is for AndroidX based projects and is updated to be kotlin based
+Spring v1.0.3 requires Android API 21+ and OkHttp 4.x. and if you need to support from Android API 16 and OkHttp 3.x. use v1.0.2, Spring is for AndroidX based projects and is updated to be kotlin based
 
 **Warning**: The data generated and stored when using this interceptor may contain sensitive information such as Authorization or Cookie headers, and the contents of request and response bodies. It is intended for use during development, and not in release builds or other production deployments.
+
+Important
+----------
+
+V1.0.3 comes with some new UI and in-progress features to add overrides, as of 1.0.3 its non-functional, it will be made available eventually
 
 Setup
 -----
@@ -33,6 +38,13 @@ Other than a few lines in your Gradle files nothing else would've changed and yo
 Step 2:
 
 Include dependencies, the spring-no-op variant can be used for release flavors, to completely disable Spring for release variants
+
+```gradle
+    releaseImplementation 'com.okhttpinspector.spring:spring-no-op:1.0.3'
+    debugImplementation 'com.okhttpinspector.spring:spring:1.0.3'
+```  
+
+For Okhttp3 users or for support from Android API 16 use,
 
 ```gradle
     releaseImplementation 'com.okhttpinspector.spring:spring-no-op:1.0.2'

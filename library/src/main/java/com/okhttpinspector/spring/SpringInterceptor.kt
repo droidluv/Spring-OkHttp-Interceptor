@@ -24,11 +24,11 @@ import com.okhttpinspector.spring.internal.data.SpringContentProvider
 import com.okhttpinspector.spring.internal.support.NotificationHelper
 import com.okhttpinspector.spring.internal.support.RetentionManager
 import okhttp3.*
-import okhttp3.internal.http.HttpHeaders
+import okhttp3.internal.http.promisesBody
 import okio.Buffer
 import okio.BufferedSource
 import okio.GzipSource
-import okio.Okio
+import okio.buffer
 import java.io.EOFException
 import java.io.IOException
 import java.nio.charset.Charset
@@ -109,20 +109,29 @@ class SpringInterceptor(context: Context) : Interceptor {
         return this
     }
 
+    private fun updateRequestIfNeeded(request: Request): Request {
+        val updatedRequest = request.newBuilder()
+
+        val originalUrl = request.url.toString()
+
+        updatedRequest.method(request.method, request.body)
+        return updatedRequest.build()
+    }
+
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
-        val request = chain.request()
+        val request = updateRequestIfNeeded(chain.request())
 
-        val requestBody: RequestBody? = request.body()
+        val requestBody: RequestBody? = request.body
         val hasRequestBody = requestBody != null
 
         val transaction = HttpTransaction()
         transaction.requestDate = Date()
 
-        transaction.method = request.method()
-        transaction.url = request.url().toString()
+        transaction.method = request.method
+        transaction.url = request.url.toString()
 
-        transaction.setRequestHeaders(request.headers())
+        transaction.setRequestHeaders(request.headers)
         if (hasRequestBody) {
             if (requestBody?.contentType() != null) {
                 transaction.requestContentType = requestBody.contentType().toString()
@@ -132,10 +141,10 @@ class SpringInterceptor(context: Context) : Interceptor {
             }
         }
 
-        transaction.setRequestBodyIsPlainText(!bodyHasUnsupportedEncoding(request.headers()))
+        transaction.setRequestBodyIsPlainText(!bodyHasUnsupportedEncoding(request.headers))
         if (hasRequestBody && transaction.requestBodyIsPlainText()) {
-            val source = getNativeSource(Buffer(), bodyGzipped(request.headers()))
-            val buffer = source.buffer()
+            val source = getNativeSource(Buffer(), bodyGzipped(request.headers))
+            val buffer = source.buffer
             requestBody?.writeTo(buffer)
             var charset = UTF8
             val contentType = requestBody?.contentType()
@@ -163,26 +172,26 @@ class SpringInterceptor(context: Context) : Interceptor {
 
         val tookMs = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNs)
 
-        val responseBody: ResponseBody? = response.body()
+        val responseBody: ResponseBody? = response.body
 
-        transaction.setRequestHeaders(response.request().headers()) // includes headers added later in the chain
+        transaction.setRequestHeaders(response.request.headers) // includes headers added later in the chain
         transaction.responseDate = Date()
         transaction.tookMs = tookMs
-        transaction.protocol = response.protocol().toString()
-        transaction.responseCode = response.code()
-        transaction.responseMessage = response.message()
+        transaction.protocol = response.protocol.toString()
+        transaction.responseCode = response.code
+        transaction.responseMessage = response.message
 
         transaction.responseContentLength = responseBody?.contentLength()
         if (responseBody?.contentType() != null) {
             transaction.responseContentType = responseBody.contentType().toString()
         }
-        transaction.setResponseHeaders(response.headers())
+        transaction.setResponseHeaders(response.headers)
 
-        transaction.setResponseBodyIsPlainText(!bodyHasUnsupportedEncoding(response.headers()))
-        if (HttpHeaders.hasBody(response) && transaction.responseBodyIsPlainText()) {
+        transaction.setResponseBodyIsPlainText(!bodyHasUnsupportedEncoding(response.headers))
+        if (response.promisesBody() && transaction.responseBodyIsPlainText()) {
             val source = getNativeSource(response)
-            source.request(java.lang.Long.MAX_VALUE)
-            val buffer = source.buffer()
+            source?.request(java.lang.Long.MAX_VALUE)
+            val buffer = source?.buffer
             var charset = UTF8
             val contentType = responseBody?.contentType()
             if (contentType != null) try {
@@ -191,12 +200,12 @@ class SpringInterceptor(context: Context) : Interceptor {
                 update(transaction, transactionUri)
                 return response
             }
-            if (isPlaintext(buffer)) {
+            if (buffer != null && isPlaintext(buffer)) {
                 transaction.responseBody = readFromBuffer(buffer.clone(), charset)
             } else {
                 transaction.setResponseBodyIsPlainText(false)
             }
-            transaction.responseContentLength = buffer.size()
+            transaction.responseContentLength = buffer?.size
         }
 
         update(transaction, transactionUri)
@@ -231,7 +240,7 @@ class SpringInterceptor(context: Context) : Interceptor {
     private fun isPlaintext(buffer: Buffer): Boolean {
         try {
             val prefix = Buffer()
-            val byteCount = if (buffer.size() < 64) buffer.size() else 64
+            val byteCount = if (buffer.size < 64) buffer.size else 64
             buffer.copyTo(prefix, 0, byteCount)
             for (i in 0..15) {
                 if (prefix.exhausted()) {
@@ -257,12 +266,12 @@ class SpringInterceptor(context: Context) : Interceptor {
     }
 
     private fun bodyGzipped(headers: Headers): Boolean {
-        val contentEncoding = headers.get("Content-Encoding")
+        val contentEncoding = headers["Content-Encoding"]
         return "gzip".equals(contentEncoding, ignoreCase = true)
     }
 
     private fun readFromBuffer(buffer: Buffer, charset: Charset): String {
-        val bufferSize = buffer.size()
+        val bufferSize = buffer.size
         val maxBytes = Math.min(bufferSize, maxContentLength)
         var body = ""
         try {
@@ -280,21 +289,21 @@ class SpringInterceptor(context: Context) : Interceptor {
     private fun getNativeSource(input: BufferedSource, isGzipped: Boolean): BufferedSource {
         return if (isGzipped) {
             val source = GzipSource(input)
-            Okio.buffer(source)
+            source.buffer()
         } else input
     }
 
     @Throws(IOException::class)
-    private fun getNativeSource(response: Response): BufferedSource {
-        if (bodyGzipped(response.headers())) {
+    private fun getNativeSource(response: Response): BufferedSource? {
+        if (bodyGzipped(response.headers)) {
             val source = response.peekBody(maxContentLength).source()
-            if (source.buffer().size() < maxContentLength) {
+            if (source.buffer.size < maxContentLength) {
                 return getNativeSource(source, true)
             } else {
                 Log.w(LOG_TAG, "gzip encoded response was too long")
             }
         }
-        return response.body().source()
+        return response.body?.source()
     }
 
     companion object {

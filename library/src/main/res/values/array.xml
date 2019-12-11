@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="url_methods">
+        <item>ALL</item>
+        <item>GET</item>
+        <item>POST</item>
+        <item>PUT</item>
+        <item>PATCH</item>
+        <item>DELETE</item>
+        <item>COPY</item>
+        <item>HEAD</item>
+        <item>OPTIONS</item>
+        <item>LINK</item>
+        <item>UNLINK</item>
+        <item>PURGE</item>
+        <item>LOCK</item>
+        <item>UNLOCK</item>
+        <item>PROPFIND</item>
+        <item>VIEW</item>
+    </string-array>
+    <string-array name="url_methods_to_change_to">
+        <item>USE ORIGINAL</item>
+        <item>GET</item>
+        <item>POST</item>
+        <item>PUT</item>
+        <item>PATCH</item>
+        <item>DELETE</item>
+        <item>COPY</item>
+        <item>HEAD</item>
+        <item>OPTIONS</item>
+        <item>LINK</item>
+        <item>UNLINK</item>
+        <item>PURGE</item>
+        <item>LOCK</item>
+        <item>UNLOCK</item>
+        <item>PROPFIND</item>
+        <item>VIEW</item>
+    </string-array>
+    <string-array name="replacement_rules">
+        <item>Don\'t modify request url</item>
+        <item>Replace only matched parts in url</item>
+        <item>Replace entire url</item>
+    </string-array>
+    <string-array name="replacement_response_rules">
+        <item>NO CHANGE</item>
+        <item>NEW JSON OBJECT</item>
+        <item>NEW XML</item>
+    </string-array>
+</resources>

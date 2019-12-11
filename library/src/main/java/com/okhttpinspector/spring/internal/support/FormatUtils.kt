@@ -77,67 +77,67 @@ object FormatUtils {
 
     }
 
-    fun getShareText(context: Context, transaction: HttpTransaction): String {
+    fun getShareText(context: Context, transaction: HttpTransaction?): String {
         var text = ""
-        text += context.getString(R.string.spring_url) + ": " + v(transaction.url) + "\n"
-        text += context.getString(R.string.spring_method) + ": " + v(transaction.method) + "\n"
-        text += context.getString(R.string.spring_protocol) + ": " + v(transaction.protocol) + "\n"
-        text += context.getString(R.string.spring_status) + ": " + v(transaction.status.toString()) + "\n"
-        text += context.getString(R.string.spring_response) + ": " + v(transaction.responseSummaryText) + "\n"
-        text += context.getString(R.string.spring_ssl) + ": " + v(context.getString(if (transaction.isSsl) R.string.spring_yes else R.string.spring_no)) + "\n"
+        text += context.getString(R.string.spring_url) + ": " + v(transaction?.url) + "\n"
+        text += context.getString(R.string.spring_method) + ": " + v(transaction?.method) + "\n"
+        text += context.getString(R.string.spring_protocol) + ": " + v(transaction?.protocol) + "\n"
+        text += context.getString(R.string.spring_status) + ": " + v(transaction?.status.toString()) + "\n"
+        text += context.getString(R.string.spring_response) + ": " + v(transaction?.responseSummaryText) + "\n"
+        text += context.getString(R.string.spring_ssl) + ": " + v(context.getString(if (transaction?.isSsl == true) R.string.spring_yes else R.string.spring_no)) + "\n"
         text += "\n"
-        text += context.getString(R.string.spring_request_time) + ": " + v(transaction.requestDateString) + "\n"
-        text += context.getString(R.string.spring_response_time) + ": " + v(transaction.responseDateString) + "\n"
-        text += context.getString(R.string.spring_duration) + ": " + v(transaction.durationString) + "\n"
+        text += context.getString(R.string.spring_request_time) + ": " + v(transaction?.requestDateString) + "\n"
+        text += context.getString(R.string.spring_response_time) + ": " + v(transaction?.responseDateString) + "\n"
+        text += context.getString(R.string.spring_duration) + ": " + v(transaction?.durationString) + "\n"
         text += "\n"
-        text += context.getString(R.string.spring_request_size) + ": " + v(transaction.requestSizeString) + "\n"
-        text += context.getString(R.string.spring_response_size) + ": " + v(transaction.responseSizeString) + "\n"
-        text += context.getString(R.string.spring_total_size) + ": " + v(transaction.totalSizeString) + "\n"
+        text += context.getString(R.string.spring_request_size) + ": " + v(transaction?.requestSizeString) + "\n"
+        text += context.getString(R.string.spring_response_size) + ": " + v(transaction?.responseSizeString) + "\n"
+        text += context.getString(R.string.spring_total_size) + ": " + v(transaction?.totalSizeString) + "\n"
         text += "\n"
         text += "---------- " + context.getString(R.string.spring_request) + " ----------\n\n"
-        var headers = formatHeaders(transaction.requestHeaders, false)
+        var headers = formatHeaders(transaction?.requestHeaders, false)
         if (!TextUtils.isEmpty(headers)) {
             text += headers + "\n"
         }
-        text += if (transaction.requestBodyIsPlainText())
+        text += if (transaction?.requestBodyIsPlainText() == true)
             v(transaction.formattedRequestBody)
         else
             context.getString(R.string.spring_body_omitted)
         text += "\n\n"
         text += "---------- " + context.getString(R.string.spring_response) + " ----------\n\n"
-        headers = formatHeaders(transaction.responseHeaders, false)
+        headers = formatHeaders(transaction?.responseHeaders, false)
         if (!TextUtils.isEmpty(headers)) {
             text += headers + "\n"
         }
-        text += if (transaction.responseBodyIsPlainText())
+        text += if (transaction?.responseBodyIsPlainText() == true)
             v(transaction.formattedResponseBody)
         else
             context.getString(R.string.spring_body_omitted)
         return text
     }
 
-    fun getShareCurlCommand(transaction: HttpTransaction): String {
+    fun getShareCurlCommand(transaction: HttpTransaction?): String {
         var compressed = false
         var curlCmd = "curl"
-        curlCmd += " -X " + transaction.method!!
-        val headers = transaction.requestHeaders
+        curlCmd += " -X " + v(transaction?.method)
+        val headers = transaction?.requestHeaders ?: emptyList()
         var i = 0
-        val count = headers?.size ?: 0
+        val count = headers.size
         while (i < count) {
             val name = headers[i].name
             val value = headers[i].value
             if ("Accept-Encoding".equals(name, ignoreCase = true) && "gzip".equals(value, ignoreCase = true)) {
                 compressed = true
             }
-            curlCmd += " -H \"$name: $value\""
+            curlCmd += " -H \'$name: $value\'"
             i++
         }
-        val requestBody = transaction.requestBody
-        if (requestBody != null && requestBody.isNotEmpty()) {
+        val requestBody = v(transaction?.requestBody)
+        if (requestBody.isNotEmpty()) {
             // try to keep to a single line and use a subshell to preserve any line breaks
             curlCmd += " --data $'" + requestBody.replace("\n", "\\n") + "'"
         }
-        curlCmd += (if (compressed) " --compressed " else " ") + transaction.url!!
+        curlCmd += (if (compressed) " --compressed " else " ") + "\'${v(transaction?.url)}\'"
         return curlCmd
     }
 

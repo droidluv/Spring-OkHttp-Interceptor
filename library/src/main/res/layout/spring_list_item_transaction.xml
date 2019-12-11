@@ -18,6 +18,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="12dp"
     android:background="?android:attr/selectableItemBackground">
 
@@ -60,7 +61,7 @@
         android:layout_below="@id/path"
         android:layout_marginTop="4dp"
         android:contentDescription="@string/spring_ssl"
-        android:src="@drawable/spring_vector_lock"/>
+        app:srcCompat="@drawable/spring_vector_lock" />
 
     <LinearLayout
         android:id="@+id/meta"

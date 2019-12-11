@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  ~ Copyright (C) 2019 Sebi Sheldin Sebastian.
  ~
  ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,6 +14,7 @@
  ~ limitations under the License.
  -->
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <style name="Spring.Theme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/spring_colorPrimary</item>
         <item name="colorPrimaryDark">@color/spring_colorPrimaryDark</item>
@@ -40,4 +40,15 @@
         <item name="android:textSize" tools:ignore="SpUsage">16dp</item>
         <item name="android:maxLines">2</item>
     </style>
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light" />
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

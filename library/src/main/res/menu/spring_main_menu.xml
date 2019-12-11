@@ -29,4 +29,8 @@
         android:id="@+id/browse_sql"
         app:showAsAction="never"
         android:visible="false"/>
+    <item
+        android:id="@+id/override"
+        android:title="@string/spring_override"
+        app:showAsAction="never" />
 </menu>
